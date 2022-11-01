@@ -23,7 +23,7 @@
 <meta name="author" content="YOUR NAMES HERE" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-11-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -110,9 +110,31 @@
 <h1><span class="header-section-number">Chapter 2</span> Proposal<a href="proposal.html#proposal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="research-topic" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Research topic<a href="proposal.html#research-topic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This project’s topic will be the relationships between demographic, diet, and behavior/health conditions of humans. We are interested in seeing trends between these categories as well as within them. For example, we could compare within categories by using a parallel-coordinates plot to visualize the correlations between different nutrients in the total nutrient intake, or we could compare between categories, like comparing distributions in a mosaic plot of gender, income, and smoking vs. nonsmoking.</p>
+<p>There are some clearly known examples of these relationships such as diet and weight, or diet and diabetes, which we will be able to show here in order to demonstrate the magnitude of their effects. With this data and analysis, we may also be able to make inferences on the causes of these effects. However, there will also be some lesser-known or unknown trends we are able to uncover in this data. We can apply the same analysis to these trends, although it may be harder to make inferences due to the fact that they aren’t well-known or obvious correlations.</p>
+<p>We are interested in how diagnosis relates to the visualization of patient’s healthcare data and whether the data could be further analyzed to improve patients’ wellness. Through this project we aim to visualize our results, both surprising and obvious ones, in a way that best helps comprehension.</p>
 </div>
 <div id="data-availability" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data availability<a href="proposal.html#data-availability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We are using datasets from the National Health and Nutrition Examination Survey (NHANES) conducted by the CDC. This survey was done every year prior to covid so we choose to use the most recent one available, 2017-2018 which can be found <a href="https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017">here</a>.</p>
+<p>The survey design is extremely precise and well-documented and can be found <a href="https://www.cdc.gov/nchs/data/series/sr_02/sr02-184-508.pdf">here</a>.</p>
+<p>The sampling is done in multi-year, stratified, clustered four-stage samples. The stages are:</p>
+<ol style="list-style-type: decimal">
+<li><p>PSUs (counties, land within counties, or multiple counties combined),</p></li>
+<li><p>Segments within PSUs,</p></li>
+<li><p>Dwelling units within segments, and</p></li>
+<li><p>Individuals within dwelling units. Mobile surveying centers are sent out where participants answer questionnaires, have objective measures of their health taken like height and weight, and have samples taken such as blood and urine.</p></li>
+</ol>
+<p>Different features are separated into different datasets, each unified by a respondent sequence number primary key. The data is stored in SAS files. Starter code is given <a href="https://wwwn.cdc.gov/nchs/data/Tutorials/Code/DB303_R.r">here</a> for how to merge the datasets. The chosen datasets are joined over the respondents’ sequence number.</p>
+<p>We are interested in many of the different datasets which are categorized by the study. The first group is demographics data which can be found <a href="https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&amp;CycleBeginYear=2017">here</a>.
+Within it we are interested in variables such as gender, age, race, military status, education level, number of people in the household, household income, etc.</p>
+<p>Next we are interested in the dietary data subgroup which can be found <a href="https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Dietary&amp;CycleBeginYear=2017">here</a>.
+Within this dietary data we are interested in the total first day nutrient intakes. Within this dataset we are interested in things like calories consumed, macronutrient intake, vitamin intake, water intake, amount of seafood eaten, etc.</p>
+<p>The third category we look at is examination data found <a href="https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Examination&amp;CycleBeginYear=2017">here</a>.
+The datasets we are potentially interested in are blood pressure, and body measures. Body measures contain features such as BMI, height, weight, etc.</p>
+<p>Finally, we look at questionnaire data found <a href="https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Questionnaire&amp;CycleBeginYear=2017">here</a>. There is a huge amount of data found in this category but these are a few that we are interested in. We may either cut some out or add more depending on how our future process goes.
+The datasets we are interested in begin with alcohol use with features like if you’ve ever drank, average number of drinks consumed in a week, or if you have ever had more than 4 for several days in a row (alcoholism), etc. Next there is diabetes with features like age diagnosed, suspected causes, symptoms, etc. After this is physical activity, things like minutes of vigorous, moderate, and sedentary activity throughout the day. Finally, there is a questionnaire about cigarette smoking, asking the age started, stopped, regularity, amount etc.</p>
+<p>The variable description and its type, source and link can be found <a href="https://wwwn.cdc.gov/nchs/nhanes/search/default.aspx">here</a>.</p>
 
 </div>
 </div>

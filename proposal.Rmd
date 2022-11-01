@@ -2,5 +2,41 @@
 
 ## Research topic
 
+This project's topic will be the relationships between demographic, diet, and behavior/health conditions of humans. We are interested in seeing trends between these categories as well as within them. For example, we could compare within categories by using a parallel-coordinates plot to visualize the correlations between different nutrients in the total nutrient intake, or we could compare between categories, like comparing distributions in a mosaic plot of gender, income, and smoking vs. nonsmoking.
+
+There are some clearly known examples of these relationships such as diet and weight, or diet and diabetes, which we will be able to show here in order to demonstrate the magnitude of their effects. With this data and analysis, we may also be able to make inferences on the causes of these effects. However, there will also be some lesser-known or unknown trends we are able to uncover in this data. We can apply the same analysis to these trends, although it may be harder to make inferences due to the fact that they aren’t well-known or obvious correlations.
+
+We are interested in how diagnosis relates to the visualization of patient’s healthcare data and whether the data could be further analyzed to improve patients’ wellness. Through this project we aim to visualize our results, both surprising and obvious ones, in a way that best helps comprehension.
+
 ## Data availability
+
+We are using datasets from the National Health and Nutrition Examination Survey (NHANES) conducted by the CDC. This survey was done every year prior to covid so we choose to use the most recent one available, 2017-2018 which can be found [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017).
+
+The survey design is extremely precise and well-documented and can be found [here](https://www.cdc.gov/nchs/data/series/sr_02/sr02-184-508.pdf).
+
+The sampling is done in multi-year, stratified, clustered four-stage samples. The stages are:
+
+1. PSUs (counties, land within counties, or multiple counties combined),
+
+2. Segments within PSUs, 
+
+3. Dwelling units within segments, and 
+
+4. Individuals within dwelling units. Mobile surveying centers are sent out where participants answer questionnaires, have objective measures of their health taken like height and weight, and have samples taken such as blood and urine.
+
+Different features are separated into different datasets, each unified by a respondent sequence number primary key. The data is stored in SAS files. Starter code is given [here](https://wwwn.cdc.gov/nchs/data/Tutorials/Code/DB303_R.r) for how to merge the datasets. The chosen datasets are joined over the respondents’ sequence number.
+
+We are interested in many of the different datasets which are categorized by the study. The first group is demographics data which can be found [here](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&CycleBeginYear=2017).
+Within it we are interested in variables such as gender, age, race, military status, education level, number of people in the household, household income, etc.
+
+Next we are interested in the dietary data subgroup which can be found [here](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Dietary&CycleBeginYear=2017).
+Within this dietary data we are interested in the total first day nutrient intakes. Within this dataset we are interested in things like calories consumed, macronutrient intake, vitamin intake, water intake, amount of seafood eaten, etc.
+
+The third category we look at is examination data found [here](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Examination&CycleBeginYear=2017).
+The datasets we are potentially interested in are blood pressure, and body measures. Body measures contain features such as BMI, height, weight, etc.
+
+Finally, we look at questionnaire data found [here](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Questionnaire&CycleBeginYear=2017). There is a huge amount of data found in this category but these are a few that we are interested in. We may either cut some out or add more depending on how our future process goes.
+The datasets we are interested in begin with alcohol use with features like if you’ve ever drank, average number of drinks consumed in a week, or if you have ever had more than 4 for several days in a row (alcoholism), etc. Next there is diabetes with features like age diagnosed, suspected causes, symptoms, etc. After this is physical activity, things like minutes of vigorous, moderate, and sedentary activity throughout the day. Finally, there is a questionnaire about cigarette smoking, asking the age started, stopped, regularity, amount etc.
+
+The variable description and its type, source and link can be found [here](https://wwwn.cdc.gov/nchs/nhanes/search/default.aspx).
 

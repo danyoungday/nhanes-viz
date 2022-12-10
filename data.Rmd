@@ -2,7 +2,109 @@
 
 ## Sources
 
+The columns we use in the demographics dataset are: ID, Country of birth, Level of education, household size, age (topcoded at 80), gender, household income, military status, marital status.
+
+The columns used in the body measures dataset are: ID, Weight (kg), Height (cm)
+
+The columns used in the nutrients dataset are: ID, Calories (kcal), Protein (g), Carbs (g), Sugar (g), Fiber (g), Total Fat (g), Cholesterol (mg), Vitamin C (mg), Sodium (mg), Caffeine (mg), Water (g).
+
+The columns from the alcohol dataset are: ID, Number of drinks per day
+
+Diabetes: ID, Diagnosis for diabetes
+
+Disabilities: ID, How often do you feel depressed
+
+Kidneys: ID, Diagnosed with weak/failing kidneys
+
+Conditions: ID, do you still have asthma, have you ever had cancer, ever had a stroke, ever had a heart attack
+
+Work: ID, work status (working, unemployed, etc.), hours worked a week
+
+Physical activity: ID, job requires physical activity, minutes recreational vigorous activity per day, mins moderate per day, mins sedentary per day
+
+Smoking: ID, Do you smoke now, # cigarettes per day last month, age started smoking regularly 
+
+
 ## Cleaning / transformation
+
+```{r}
+#install.packages("survey")
+library(dplyr)
+library(survey)
+```
+
+```{r}
+read_data <- function(file_link, var_names) {
+  download.file(file_link, tf <- tempfile(), mode="wb")
+  output <- foreign::read.xport(tf)[,var_names]
+  return(output)
+}
+```
+
+```{r}
+# Demographics
+demographics <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DEMO_J.XPT", c("SEQN","DMDBORN4","DMDEDUC2","DMDHHSIZ","RIDAGEYR","RIAGENDR", "INDHHIN2", "DMQMILIZ", "DMDMARTL")) %>%
+  rename(country_of_birth="DMDBORN4", level_education="DMDEDUC2", household_size="DMDHHSIZ", age="RIDAGEYR", gender="RIAGENDR", household_income="INDHHIN2", military_status="DMQMILIZ", marital_status="DMDMARTL")
+
+# Body measures
+body_measures <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/BMX_J.XPT", c("SEQN", "BMXWT", "BMXHT")) %>%
+  rename(weight="BMXWT", height="BMXHT")
+
+# Nutrient intake
+nutrients <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DR1TOT_J.XPT", c("SEQN", "DR1TKCAL", "DR1TPROT", "DR1TCARB", "DR1TSUGR", "DR1TFIBE", "DR1TTFAT", "DR1TCHOL", "DR1TVC", "DR1TSODI", "DR1TCAFF", "DR1_320Z")) %>%
+  rename(calories="DR1TKCAL", protein="DR1TPROT", carbs="DR1TCARB", sugar="DR1TSUGR", fiber="DR1TFIBE", fat="DR1TTFAT", cholesterol="DR1TCHOL", vitc="DR1TVC", sodium="DR1TSODI", caffeine="DR1TCAFF", water="DR1_320Z")
+
+# Alcohol usage
+alcohol <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/ALQ_J.XPT", c("SEQN", "ALQ130")) %>%
+  rename(drinks_day="ALQ130")
+
+# Diabetes
+diabetes <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DIQ_J.XPT", c("SEQN", "DIQ010")) %>%
+  rename(diabetes="DIQ010")
+
+# Disabilities
+disabilities <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DLQ_J.XPT", c("SEQN", "DLQ140")) %>%
+  rename(depression="DLQ140")
+
+# Kidneys
+kidneys <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/KIQ_U_J.XPT", c("SEQN", "KIQ022")) %>%
+  rename(kidneys="KIQ022")
+
+# Conditions
+conditions <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/MCQ_J.XPT", c("SEQN", "MCQ035", "MCQ220", "MCQ160F", "MCQ160E")) %>%
+  rename(asthma="MCQ035", cancer="MCQ220", stroke="MCQ160F", heart_attack="MCQ160E")
+
+# Work
+work <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/OCQ_J.XPT", c("SEQN", "OCD150", "OCQ180")) %>%
+  rename(work_status="OCD150", work_hours="OCQ180")
+
+# Physical Activity
+physical <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/PAQ_J.XPT", c("SEQN", "PAQ605", "PAD660", "PAD675", "PAD680")) %>%
+  rename(work_activity="PAQ605", act_mins_vig="PAD660", act_mins_mod="PAD675", act_mins_sed="PAD680")
+
+# Smoking
+smoking <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/SMQ_J.XPT", c("SEQN", "SMQ040", "SMD650", "SMD030")) %>%
+  rename(smoke="SMQ040", num_cigs_day="SMD650", smoke_age="SMD030")
+```
+
+Next we merge all our datasets by the SEQN ID column.
+```{r}
+total = left_join(demographics, alcohol, by="SEQN")
+total = left_join(total, body_measures, by="SEQN")
+total = left_join(total, conditions, by="SEQN")
+total = left_join(total, diabetes, by="SEQN")
+total = left_join(total, disabilities, by="SEQN")
+total = left_join(total, kidneys, by="SEQN")
+total = left_join(total, nutrients, by="SEQN")
+total = left_join(total, physical, by="SEQN")
+total = left_join(total, smoking, by="SEQN")
+total = left_join(total, work, by="SEQN")
+```
+
+Finally, we save our data to a file to be used for our graphs.
+```{r}
+write.csv(total, "nhanesdata.csv", row.names=FALSE)
+```
 
 ## Missing value analysis
 

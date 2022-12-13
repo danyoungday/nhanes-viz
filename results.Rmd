@@ -1,2 +1,108 @@
-# Results
-Hello World
+### load packages
+```{r}
+library(dplyr)
+library(tidyverse)
+library(GGally)
+```
+
+
+```{r}
+set.seed(0)
+```
+
+
+### read data
+
+```{r}
+unique(df$marital_status)
+```
+
+
+```{r}
+df <- read.csv("nhanesdata.csv")
+```
+
+### Cancer alc, smoking
+```{r warning=FALSE, fig.cap="Scatter of Alcohol vs Cigarettes"}
+df$cancer[which(df$cancer==1)] <- "Cancer"
+df$cancer[which(df$cancer==2)] <- "Non-Cancer"
+df$cancer[which(df$cancer==9)] <- NA
+df$drinks_day[which(df$drinks_day==777)] <- NA
+df$drinks_day[which(df$drinks_day==999)] <- NA
+df$num_cigs_day[which(df$num_cigs_day==777)] <- NA
+df$num_cigs_day[which(df$num_cigs_day==999)] <- NA
+df %>% drop_na(cancer) %>%
+  ggplot(aes(x=num_cigs_day, y=drinks_day)) + 
+  geom_point(aes(col=cancer),alpha=0.3) +
+  xlab("Average Number of Cigarettes per Day")+
+  ylab("Average Number of Alcohol Drinks per Day")+
+  theme_classic()
+```
+People who smoke will have higher chance to get cancer
+
+```{r}
+df$smoke_age_group <- ifelse((df$smoke_age>=0&df$smoke_age<=5),"0-5",NA)
+df$smoke_age_group <- ifelse((df$smoke_age>=6&df$smoke_age<=10),"6-10",df$smoke_age_group)
+df$smoke_age_group <- ifelse((df$smoke_age>=11&df$smoke_age<=17),"11-17",df$smoke_age_group)
+df$smoke_age_group <- ifelse((df$smoke_age>=18),"18+",df$smoke_age_group)
+```
+
+### Smoke_Age, Height, Weight
+```{r, warning=False}
+df %>% drop_na(smoke_age_group) %>%
+  slice_sample(prop=0.3) %>%
+  ggplot(aes(x=height, y=weight)) + 
+  geom_point(aes(col=as.factor(smoke_age_group)),alpha=0.5,size=0.7) +
+  labs(col="Smoke Age")+
+  theme_classic()
+```
+
+There is no pattern between smoke age and height and weight.
+
+### Marital, Age, BMI
+```{r warning=False}
+df$BMI <- df$weight / (df$height/100)^2
+df$marital_status[which(df$marital_status==1)]  <- "Married"
+df$marital_status[which(df$marital_status==2)]  <- "Not Married"
+df$marital_status[which(df$marital_status==3)]  <- "Not Married"
+df$marital_status[which(df$marital_status==4)]  <- "Not Married"
+df$marital_status[which(df$marital_status==5)]  <- "Not Married"
+df$marital_status[which(df$marital_status==6)]  <- "Married"
+df$marital_status[which(df$marital_status==77)]  <- NA
+df$marital_status[which(df$marital_status==99)]  <- NA
+df %>% drop_na(marital_status) %>%
+  slice_sample(prop=0.1) %>%
+  ggplot(aes(x=age, y=BMI)) + 
+  geom_point(aes(col=marital_status),alpha=0.5,size=0.7) +
+  labs(col="Marital Status")+
+  theme_classic()
+```
+
+There is no difference between Married group and Not Married group. 
+```{r}
+ls(df)
+```
+
+### Income Nutrients
+```{r}
+set.seed(1)
+df$household_income[df$household_income==77] <- NA
+df$household_income[df$household_income==99] <- NA
+df_pc <- df %>%
+  select(c("household_income","protein","sodium","sugar","vitc","water","caffeine","calories","carbs",,"cholesterol","fat","fiber")) %>%
+  drop_na("household_income") %>%
+  slice_sample(prop=0.005)
+df_pc$Income_group <- ifelse((df_pc$household_income>=1&df_pc$household_income<=4),"$0 - $19,999",NA)
+df_pc$Income_group <- ifelse((df_pc$household_income>=6&df_pc$household_income<=10),"$20,000 - $74,999",df_pc$Income_group)
+df_pc$Income_group <- ifelse((df_pc$household_income==13),"$0 - $19,999",df_pc$Income_group)
+df_pc$Income_group <- ifelse((df_pc$household_income==14),"$75,000 - $99,999",df_pc$Income_group)
+df_pc$Income_group <- ifelse((df_pc$household_income==15),"$100,000 and Over",df_pc$Income_group)
+df_pc <- df_pc%>%
+  drop_na(Income_group)
+df_pc$Income_group <- factor(df_pc$Income_group, levels=c("$0 - $19,999","$20,000 - $74,999","$75,000 - $99,999","$100,000 and Over"))
+ggparcoord(df_pc, column=c(2:12), scale="uniminmax", groupColumn ="Income_group", splineFactor = 10)+theme_classic()
+```
+
+
+
+

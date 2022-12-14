@@ -1,29 +1,98 @@
-### load packages
+# Results
+
 ```{r}
 library(dplyr)
 library(tidyverse)
 library(GGally)
+library(redav)
+library(ggridges)
 ```
-
 
 ```{r}
 set.seed(0)
-```
-
-
-### read data
-
-```{r}
-unique(df$marital_status)
-```
-
-
-```{r}
+# Stays the same
+data <- read.csv("nhanesdata.csv")
+# Modified later
 df <- read.csv("nhanesdata.csv")
 ```
 
-### Cancer alc, smoking
-```{r warning=FALSE, fig.cap="Scatter of Alcohol vs Cigarettes"}
+## Heatmap of Height vs Weight
+
+```{r}
+bmi <- data[c("height", "weight", "gender", "age")] %>% 
+  drop_na %>% 
+  mutate(age=age < 18)
+
+bmi["age"][bmi["age"] == TRUE] <- "Minor"
+bmi["age"][bmi["age"] == FALSE] <- "Adult"
+bmi["gender"][bmi["gender"] == "1"] <- "Male"
+bmi["gender"][bmi["gender"] == "2"] <- "Female"
+```
+
+```{r}
+ggplot(bmi, aes(weight, height)) + 
+  geom_bin2d(binwidth=c(5, 5)) +
+  facet_grid(age~gender) +
+  xlab("Weight (kg)") +
+  ylab("Height (cm)") +
+  ggtitle("Heatmap of Height vs. Weight Faceted by Gender and Age")
+```
+
+We see here several trends we observe in life and reveal some less obvoius ones.
+
+First, the range of adult female weights is centered lower than the male one. One less obvious observation about this is that the distribution of adult female weights is denser than the male ones. This could be due to the fact that men tend to be able to grow taller than women so the spread will be greater.
+
+Another trend we see is that the heights and weights of minors stays relatively the same until a certain point. If we did another threshold where puberty starts we would probably see an even more distinct cutoff point. The under 18 groups are able to reach about the same range of heights as their adult counterparts, however they don't even come close to the outliers in weight in the adults.
+
+## Examination of Height vs. Weight by Age Started Smoking
+
+### Scatter of Height vs. Weight by Smoking Age
+```{r}
+df$smoke_age_group <- ifelse((df$smoke_age>=0&df$smoke_age<=5),"0-5",NA)
+df$smoke_age_group <- ifelse((df$smoke_age>=6&df$smoke_age<=10),"6-10",df$smoke_age_group)
+df$smoke_age_group <- ifelse((df$smoke_age>=11&df$smoke_age<=17),"11-17",df$smoke_age_group)
+df$smoke_age_group <- ifelse((df$smoke_age>=18),"18+",df$smoke_age_group)
+```
+
+```{r}
+df %>% drop_na(smoke_age_group) %>%
+  slice_sample(prop=0.3) %>%
+  ggplot(aes(x=weight, y=height)) + 
+  geom_point(aes(col=fct_relevel(as.factor(smoke_age_group), "6-10", after=1)),alpha=0.5,size=0.7) +
+  labs(col="Smoke Age")+
+  ylab("Height (cm)") +
+  xlab("Weight (kg)") +
+  ggtitle("Scatter of Height vs. Weight Colored by Age Started Smoking") +
+  theme_classic()
+```
+
+Here we don't see a pattern between smoking and height and weight. The colors of the points seem roughly uniformly distributed. We take a closer look at height with a some boxplots:
+
+### Boxplots of Height and Weight by Smoking Age
+```{r}
+df[c("smoke_age_group", "height")] %>% drop_na() %>%
+  ggplot(aes(x=fct_relevel(as.factor(smoke_age_group), "6-10", after=1), y=height)) +
+  geom_boxplot() +
+  xlab("Age Started Smoking") +
+  ylab("Height (cm)") +
+  ggtitle("Boxplots of Height by Age Started Smoking")
+```
+
+And here we can also see the height distributions don't seem to change based on when the participant started smoking.
+
+```{r}
+df[c("smoke_age_group", "weight")] %>% drop_na() %>%
+  ggplot(aes(x=fct_relevel(as.factor(smoke_age_group), "6-10", after=1), y=weight)) +
+  xlab("Age Started Smoking") +
+  ylab("Weight (kg)") +
+  ggtitle("Boxplots of Age Started Smoking vs. Weight") +
+  geom_boxplot()
+```
+
+We also see the same is true for weight so it appears the age a smoker starts smoking doesn't seem to be correlated with their height and weight, which is surprising to us because our initial hypothesis was that their height and weight would be stunted.
+
+## Heatmap of Smoking vs. Alcohol faceted by Cancer
+```{r}
 df$cancer[which(df$cancer==1)] <- "Cancer"
 df$cancer[which(df$cancer==2)] <- "Non-Cancer"
 df$cancer[which(df$cancer==9)] <- NA
@@ -33,34 +102,17 @@ df$num_cigs_day[which(df$num_cigs_day==777)] <- NA
 df$num_cigs_day[which(df$num_cigs_day==999)] <- NA
 df %>% drop_na(cancer) %>%
   ggplot(aes(x=num_cigs_day, y=drinks_day)) + 
-  geom_point(aes(col=cancer),alpha=0.3) +
+  geom_bin2d(binwidth=c(2.5, 1)) +
+  facet_wrap(~fct_rev(cancer),ncol=1) +
   xlab("Average Number of Cigarettes per Day")+
   ylab("Average Number of Alcohol Drinks per Day")+
-  theme_classic()
+  ggtitle("Heatmap of Cigarettes per day vs. Drinks per day faceted by Cancer")
 ```
-People who smoke will have higher chance to get cancer
 
+Here we see surprisingly that between drinking and smoking there does not seem to be a correlation in the non cancer group as we would imagine there is a positive correlation. However it appears the cancer group drinks significantly less than the non cancer group, possibly due to medication. Finally we see that smoking appears to not be correlated with cancer besides one outlying group at 60 cigarettes smoked per day, which could be because we take all cancer types not just lung cancer.
+
+## Scatterplot of Age vs. BMI by Marital Status
 ```{r}
-df$smoke_age_group <- ifelse((df$smoke_age>=0&df$smoke_age<=5),"0-5",NA)
-df$smoke_age_group <- ifelse((df$smoke_age>=6&df$smoke_age<=10),"6-10",df$smoke_age_group)
-df$smoke_age_group <- ifelse((df$smoke_age>=11&df$smoke_age<=17),"11-17",df$smoke_age_group)
-df$smoke_age_group <- ifelse((df$smoke_age>=18),"18+",df$smoke_age_group)
-```
-
-### Smoke_Age, Height, Weight
-```{r, warning=False}
-df %>% drop_na(smoke_age_group) %>%
-  slice_sample(prop=0.3) %>%
-  ggplot(aes(x=height, y=weight)) + 
-  geom_point(aes(col=as.factor(smoke_age_group)),alpha=0.5,size=0.7) +
-  labs(col="Smoke Age")+
-  theme_classic()
-```
-
-There is no pattern between smoke age and height and weight.
-
-### Marital, Age, BMI
-```{r warning=False}
 df$BMI <- df$weight / (df$height/100)^2
 df$marital_status[which(df$marital_status==1)]  <- "Married"
 df$marital_status[which(df$marital_status==2)]  <- "Not Married"
@@ -78,12 +130,34 @@ df %>% drop_na(marital_status) %>%
   theme_classic()
 ```
 
-There is no difference between Married group and Not Married group. 
+The data here is topcoded at 80 years old. First we see there is little correlation between BMI and age regardless of marital status. The data is relatively uniformly distributed throughout the graph. Next we observe there appears to be no difference between the married and not married groups. We define married as: currently married or living with partner and we consider not married as: widowed, divorced, separated, and never married. Looking at this graph it seems there is not enough evidence to say that people "let themselves go" after they get married.
+
+## Biplot of Total Nutrient Intake
+
 ```{r}
-ls(df)
+nutrients <- data[c("calories", "protein", "carbs", "sugar", "fiber", "fat", "cholesterol", "vitc", "sodium", "caffeine", "water")] %>% drop_na()
+# Normalize nutrient data
+nutrients_norm <- nutrients %>% mutate(across(where(is.numeric), ~round((.x-mean(.x))/sd(.x), 2)))
 ```
 
-### Income Nutrients
+### Biplot with just rotation vectors:
+```{r}
+draw_biplot(nutrients_norm, points=FALSE, mult=15)
+```
+
+We see our first two PCs only account for 61.2% of the variance in the data, however we still see trends in our rotation vectors that seem to align with our real-world observations. Calories are somewhat positively correlated with all the main macro nutrients because the more someone eats, the more nutrients they get. However, it is the least positively correlated with water intake and vitamin c which don't necessarily provide calorie intake. Then we see two clear correlated groups of features: cholesterol, protein, sodium, and fat which can be accounted to eating more meat, and fiber, carbohydrates, and sugar which can be attributed to grains. These two groups seem to not be correlated with each other which makes sense because they are not linked by many common foods. Finally, caffeine has a very small vector because it seems to not be correlated with the rest of the data.
+
+### Biplot with points:
+```{r}
+set.seed(0)
+nutrients_sub <- nutrients_norm %>% sample_n(120)
+draw_biplot(nutrients_sub, points=TRUE)
+```
+
+We subsample 120 points for readability in the graph while still maintaining our rotation vectors. It looks like the distribution has one main cluster in the left half of the graph below the average total nutrient intake where most people are, and then there is a more sparse spread beyond that, maybe because people who eat more tend to have more specialized or unhealthy diets. Additionally, perhaps there are more outliers on the right side because you can always eat more but it's physically impossible to eat below a certain threshold.
+
+
+## Parallel Coordinates Plot of Nutrients by Income Group
 ```{r}
 set.seed(1)
 df$household_income[df$household_income==77] <- NA
@@ -91,7 +165,7 @@ df$household_income[df$household_income==99] <- NA
 df_pc <- df %>%
   select(c("household_income","protein","sodium","sugar","vitc","water","caffeine","calories","carbs",,"cholesterol","fat","fiber")) %>%
   drop_na("household_income") %>%
-  slice_sample(prop=0.005)
+  slice_sample(prop=0.01)
 df_pc$Income_group <- ifelse((df_pc$household_income>=1&df_pc$household_income<=4),"$0 - $19,999",NA)
 df_pc$Income_group <- ifelse((df_pc$household_income>=6&df_pc$household_income<=10),"$20,000 - $74,999",df_pc$Income_group)
 df_pc$Income_group <- ifelse((df_pc$household_income==13),"$0 - $19,999",df_pc$Income_group)
@@ -100,9 +174,37 @@ df_pc$Income_group <- ifelse((df_pc$household_income==15),"$100,000 and Over",df
 df_pc <- df_pc%>%
   drop_na(Income_group)
 df_pc$Income_group <- factor(df_pc$Income_group, levels=c("$0 - $19,999","$20,000 - $74,999","$75,000 - $99,999","$100,000 and Over"))
-ggparcoord(df_pc, column=c(2:12), scale="uniminmax", groupColumn ="Income_group", splineFactor = 10)+theme_classic()
 ```
 
+```{r}
+ggparcoord(df_pc, column=c(8, 2, 3, 10, 11, 5, 6, 7, 4, 9, 12), scale="uniminmax", groupColumn ="Income_group", splineFactor = 0) +
+  ylab("Value") +
+  xlab("Nutrients") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Parallel Coordinates Plot of Nutrients Grouped by Income")
 
+```
 
+Here we can see that while there are no obvious trends in this tiny subset of our data, we can see that there are some minor groupings by color in areas like protein/sodium/cholesterol where the 20,000-74,999 group is clustered together higher than the 100,000 and over group. We find it interesting that we see smaller more localized trends, however we don't see one large, overarching trend in income vs. nutrients.
+
+## Heatmap of Work Hours vs. Caffeine Consumption
+
+```{r}
+# Filter out non respondents and huge caffeine outliers
+caf <- data[c("caffeine", "work_hours")] %>% 
+  drop_na() %>%
+  filter(work_hours < 70000, caffeine < 1000)
+```
+
+```{r}
+ggplot(caf, aes(work_hours, caffeine)) + 
+  geom_bin2d(binwidth=c(1, 50)) +
+  scale_fill_gradient(low="#3c2a1d", high="#c4a189") +
+  ylab("Caffeine (mg)") +
+  xlab("Work Hours (weekly)") +
+  ggtitle("Heatmap of Work Hours vs. Caffeine Consumption")
+```
+
+In examining the relationship between work hours and caffeine consumption after removing drastic outliers, we shockingly see that there is no correlation between the two. The majority of people drink 1-2 cups (100-200mg) of coffee a day with some minor outliers evenly distributed throughout different values of weekly work hours. We find the lack of correlation here more surprising than seeing one because we expected to see a positive relationship between the two.
 

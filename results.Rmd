@@ -16,7 +16,9 @@ data <- read.csv("nhanesdata.csv")
 df <- read.csv("nhanesdata.csv")
 ```
 
-## Heatmap of Height vs Weight
+## Heatmap of Height vs Weight by Gender and Age
+
+We want to examine the relationship between height and weight and gender and age's effects on this relationship.
 
 ```{r}
 bmi <- data[c("height", "weight", "gender", "age")] %>% 
@@ -45,6 +47,8 @@ First, the range of adult female weights is centered lower than the male one. On
 Another trend we see is that the heights and weights of minors stays relatively the same until a certain point. If we did another threshold where puberty starts we would probably see an even more distinct cutoff point. The under 18 groups are able to reach about the same range of heights as their adult counterparts, however they don't even come close to the outliers in weight in the adults.
 
 ## Examination of Height vs. Weight by Age Started Smoking
+
+Here we want to see if the age someone starts smoking affects their height and weight later in life. We hypothesize the earlier one starts smoking the more stunted their growth.
 
 ### Scatter of Height vs. Weight by Smoking Age
 ```{r}
@@ -92,6 +96,9 @@ df[c("smoke_age_group", "weight")] %>% drop_na() %>%
 We also see the same is true for weight so it appears the age a smoker starts smoking doesn't seem to be correlated with their height and weight, which is surprising to us because our initial hypothesis was that their height and weight would be stunted.
 
 ## Heatmap of Smoking vs. Alcohol faceted by Cancer
+
+In this visualization we want to see if people with cancer smoke or drink more, possibly leading to their cancer.
+
 ```{r}
 df$cancer[which(df$cancer==1)] <- "Cancer"
 df$cancer[which(df$cancer==2)] <- "Non-Cancer"
@@ -112,6 +119,9 @@ df %>% drop_na(cancer) %>%
 Here we see surprisingly that between drinking and smoking there does not seem to be a correlation in the non cancer group as we would imagine there is a positive correlation. However it appears the cancer group drinks significantly less than the non cancer group, possibly due to medication. Finally we see that smoking appears to not be correlated with cancer besides one outlying group at 60 cigarettes smoked per day, which could be because we take all cancer types not just lung cancer.
 
 ## Scatterplot of Age vs. BMI by Marital Status
+
+Here we want to see the relationship between age and BMI and how it is affected by marital status. One hypothesis we have going in is the idea that people "let themselves go" the older they get and once they are married.
+
 ```{r}
 df$BMI <- df$weight / (df$height/100)^2
 df$marital_status[which(df$marital_status==1)]  <- "Married"
@@ -133,6 +143,8 @@ df %>% drop_na(marital_status) %>%
 The data here is topcoded at 80 years old. First we see there is little correlation between BMI and age regardless of marital status. The data is relatively uniformly distributed throughout the graph. Next we observe there appears to be no difference between the married and not married groups. We define married as: currently married or living with partner and we consider not married as: widowed, divorced, separated, and never married. Looking at this graph it seems there is not enough evidence to say that people "let themselves go" after they get married.
 
 ## Biplot of Total Nutrient Intake
+
+Now we want to see the correlations and clustering between different nutrient intakes.
 
 ```{r}
 nutrients <- data[c("calories", "protein", "carbs", "sugar", "fiber", "fat", "cholesterol", "vitc", "sodium", "caffeine", "water")] %>% drop_na()
@@ -158,6 +170,9 @@ We subsample 120 points for readability in the graph while still maintaining our
 
 
 ## Parallel Coordinates Plot of Nutrients by Income Group
+
+Here we want to see if diet changes by income group.
+
 ```{r}
 set.seed(1)
 df$household_income[df$household_income==77] <- NA

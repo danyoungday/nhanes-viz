@@ -31,6 +31,10 @@ Smoking: ID, Do you smoke now, # cigarettes per day last month, age started smok
 #install.packages("survey")
 library(dplyr)
 library(survey)
+library(redav)
+library(tidyr)
+library(ggplot2)
+library(forcats)
 ```
 
 ```{r}
@@ -92,9 +96,7 @@ Next we merge all our datasets by the SEQN ID column.
 total = left_join(demographics, alcohol, by="SEQN")
 total = left_join(total, body_measures, by="SEQN")
 total = left_join(total, conditions, by="SEQN")
-total = left_join(total, diabetes, by="SEQN")
 total = left_join(total, disabilities, by="SEQN")
-total = left_join(total, kidneys, by="SEQN")
 total = left_join(total, nutrients, by="SEQN")
 total = left_join(total, physical, by="SEQN")
 total = left_join(total, smoking, by="SEQN")
@@ -108,3 +110,38 @@ write.csv(total, "nhanesdata.csv", row.names=FALSE)
 
 ## Missing value analysis
 
+### NA's per Column
+In order to do missing value analysis we have to take a less coventional approach because we have so many columns merged together from different datasets. First, we show the number of NAs in each column.
+```{r}
+na_count <- total %>% summarise_all(~sum(is.na(.))) %>% pivot_longer(cols=1:39)
+ggplot(na_count, aes(x = value, y = fct_reorder(name, value))) +
+  geom_point(color = "blue") +
+  ggtitle("Number of NAs for each Column") +
+  ylab("") +
+  xlab("Number of NA") +
+  theme_linedraw()
+```
+
+We see that things like number of cigarettes a day have higher counts of NA because they are more niche parts of the survey and are less likely to be filled out, whereas things like nutrition, body measurements, or demographics are either very low in NAs or not missing any. However, we cannot conclude from an NA that someone doesn't smoke, we just have to remove it because they may still have been a smoker and not filled out the question.
+
+Next we take a look at a few of our datasets to see trends within them.
+
+### Pattern Analysis for Demographics
+
+Next we take a look at the demographics dataset specifically.
+```{r}
+dem_mis <- demographics %>% rename(country=country_of_birth, edu=level_education, hsize=household_size, age=age, gender=gender, inc=household_income, mil=military_status, mar=marital_status)
+plot_missing(dem_mis, percent = TRUE)
+```
+
+Here we see that level of education, and marital status are tied for most missing and we can see 4/5 of our missing patterns are missing both these fields with none having one or the other. Perhaps this is due to the survey methods putting these two questions close together. We also see military status having a decent amount missing. Income also has a very tiny amount of values missing. The most common missing pattern is education, marital, and military which leads us to believe this was in fact, due to how the survey was given grouping these questions.
+
+### Pattern Analysis for Nutrition
+
+Next we look at the nutrition dataset.
+```{r}
+nut_mis <- nutrients %>% rename(kcal=calories, prot=protein, carbs=carbs, sugar=sugar, fiber=fiber, fat=fat, chol=cholesterol, vitc=vitc, sodium=sodium, caf=caffeine, water=water)
+plot_missing(nut_mis, percent = TRUE)
+```
+
+We see that the vast majority of the data is complete and there are only 2 missing patterns, one where none of the fields are filled, and one where just water is filled. This could be due to the fact that people answering did not want to count up all their nutrients, and water is a simple thing to list as it's easy to estimate whereas the rest aren't necessarily.

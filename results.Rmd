@@ -1,3 +1,5 @@
+
+
 # Results
 
 ```{r}
@@ -226,3 +228,4 @@ ggplot(caf, aes(work_hours, caffeine)) +
 
 In examining the relationship between work hours and caffeine consumption after removing drastic outliers, we shockingly see that there is no correlation between the two. The majority of people drink 1-2 cups (100-200mg) of coffee a day with some minor outliers evenly distributed throughout different values of weekly work hours. We find the lack of correlation here more surprising than seeing one because we expected to see a positive relationship between the two.
 
+Start here

@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>YOUR TITLE HERE</title>
-  <meta name="description" content="YOUR TITLE HERE" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <title>National Health and Nutrition Examination Survey Visualization</title>
+  <meta name="description" content="National Health and Nutrition Examination Survey Visualization" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="YOUR TITLE HERE" />
+  <meta property="og:title" content="National Health and Nutrition Examination Survey Visualization" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="YOUR TITLE HERE" />
+  <meta name="twitter:title" content="National Health and Nutrition Examination Survey Visualization" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Daniel Young (day2127), Ruijie Zhang (rz2596), Shubham Kaushal (sk5118)" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -69,7 +69,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">NHANES Viz</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -80,13 +80,45 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a></li>
-<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
-<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a></li>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="data.html"><a href="data.html#dataset-columns"><i class="fa fa-check"></i><b>3.1.1</b> Dataset columns</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#nas-per-column"><i class="fa fa-check"></i><b>3.3.1</b> NA’s per Column</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#pattern-analysis-for-demographics"><i class="fa fa-check"></i><b>3.3.2</b> Pattern Analysis for Demographics</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data.html"><a href="data.html#pattern-analysis-for-nutrition"><i class="fa fa-check"></i><b>3.3.3</b> Pattern Analysis for Nutrition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#heatmap-of-height-vs-weight-by-gender-and-age"><i class="fa fa-check"></i><b>4.1</b> Heatmap of Height vs Weight by Gender and Age</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#examination-of-height-vs.-weight-by-age-started-smoking"><i class="fa fa-check"></i><b>4.2</b> Examination of Height vs. Weight by Age Started Smoking</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="results.html"><a href="results.html#scatter-of-height-vs.-weight-by-smoking-age"><i class="fa fa-check"></i><b>4.2.1</b> Scatter of Height vs. Weight by Smoking Age</a></li>
+<li class="chapter" data-level="4.2.2" data-path="results.html"><a href="results.html#boxplots-of-height-and-weight-by-smoking-age"><i class="fa fa-check"></i><b>4.2.2</b> Boxplots of Height and Weight by Smoking Age</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#heatmap-of-smoking-vs.-alcohol-faceted-by-cancer"><i class="fa fa-check"></i><b>4.3</b> Heatmap of Smoking vs. Alcohol faceted by Cancer</a></li>
+<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#scatterplot-of-age-vs.-bmi-by-marital-status"><i class="fa fa-check"></i><b>4.4</b> Scatterplot of Age vs. BMI by Marital Status</a></li>
+<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#biplot-of-total-nutrient-intake"><i class="fa fa-check"></i><b>4.5</b> Biplot of Total Nutrient Intake</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="results.html"><a href="results.html#biplot-with-just-rotation-vectors"><i class="fa fa-check"></i><b>4.5.1</b> Biplot with just rotation vectors:</a></li>
+<li class="chapter" data-level="4.5.2" data-path="results.html"><a href="results.html#biplot-with-points"><i class="fa fa-check"></i><b>4.5.2</b> Biplot with points:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="results.html"><a href="results.html#parallel-coordinates-plot-of-nutrients-by-income-group"><i class="fa fa-check"></i><b>4.6</b> Parallel Coordinates Plot of Nutrients by Income Group</a></li>
+<li class="chapter" data-level="4.7" data-path="results.html"><a href="results.html#heatmap-of-work-hours-vs.-caffeine-consumption"><i class="fa fa-check"></i><b>4.7</b> Heatmap of Work Hours vs. Caffeine Consumption</a></li>
+<li class="chapter" data-level="4.8" data-path="results.html"><a href="results.html#distribution-of-work-hours-for-different-education-levels"><i class="fa fa-check"></i><b>4.8</b> Distribution of Work Hours for different Education Levels</a></li>
+<li class="chapter" data-level="4.9" data-path="results.html"><a href="results.html#mosaic-plot-of-depression-vs-military-status"><i class="fa fa-check"></i><b>4.9</b> Mosaic Plot of Depression vs Military Status</a></li>
+<li class="chapter" data-level="4.10" data-path="results.html"><a href="results.html#mosaic-plot-of-education-level-vs-depression-vs-income"><i class="fa fa-check"></i><b>4.10</b> Mosaic Plot of Education Level vs Depression vs Income</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#main-takeaways"><i class="fa fa-check"></i><b>6.1</b> Main Takeaways</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#limitations-future-directions-lessons-learned"><i class="fa fa-check"></i><b>6.2</b> Limitations, Future Directions, Lessons Learned</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -98,7 +130,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">National Health and Nutrition Examination Survey Visualization</a>
           </h1>
         </div>
 
@@ -107,12 +139,13 @@
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">YOUR TITLE HERE</h1>
-<p class="author"><em>YOUR NAMES HERE</em></p>
-<p class="date"><em>2022-10-22</em></p>
+<h1 class="title">National Health and Nutrition Examination Survey Visualization</h1>
+<p class="author"><em>Daniel Young (day2127), Ruijie Zhang (rz2596), Shubham Kaushal (sk5118)</em></p>
+<p class="date"><em>2022-12-15</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We decided to take a look at the relationships in the National Health and Nutrition Examination Survey conducted by the CDC. It is “a program of studies designed to assess the health and nutritional status of adults and children in the United States”. We find it is unique because it: “combines interviews and physical examinations”. This allows us to look at objective trends like height and weight as well as data from personal experience like smoking and depression. We can also combine the two to see if one has impact on the other. The data NHANES offers is expansive and we had to look carefully for bits and pieces we wanted to examine because there were so many variables to sift through. We eventually decided on questioning some “common sense” ideas we had in order to see if they actually had grounding in real-world data. For example, we ask things like: do people who work more drink more coffee, do people who started smoking earlier have stunted growth, does income really affect nutrition that much, do people really “let themselves go” once they are married and older, and many more. In the end, we were able to find evidence of some of these “common sense” ideas whereas for others we could not find anything meaningful.</p>
 
 </div>
             </section>
@@ -152,7 +185,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/index.Rmd",
+"link": "https://github.com/danyoungday/nhanes-viz/edit/main/index.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -160,7 +193,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/index.Rmd",
+"link": "https://github.com/danyoungday/nhanes-viz/blob/main/index.Rmd",
 "text": null
 },
 "download": null,

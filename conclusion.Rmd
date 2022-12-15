@@ -1,2 +1,32 @@
 # Conclusion
 
+## Main Takeaways
+
+In our analysis we weren't able to find evidence for some of our questions, however for others we found some interesting trends.
+
+When we examined height vs. weight by age started smoking, we expected to find that those who had started smoking earlier would have a much lower distribution in both fields, especially in height. However, we saw that all our age groups had roughly identical uniform distributions which meant we didn't see a trend corroborating our idea that smoking earlier makes you shorter.
+
+Looking at cigarette smoking vs. alcohol consumption faceted by cancer, we didn't find that people with cancer smoked and drank more. Our idea was that smoking causes cancer or that people with cancer would potentially give into their vices. However, we found that there wasn't really an association between cancer and smoking and drinking. This could be due to the fact that cancer patients are probably on medication or hospitalized and not able to smoke or drink.
+
+In the scatterplot of BMI vs. age by marital status, we expected to see BMI getting higher with age and marital status also increasing BMI. However, we saw that the distribution stayed uniform throughout, showing that the range of BMIs stays the same regardless of age and marital status.
+
+Our histograms of work hours faceted on level of education didn't show us much. We thought that we would see a greater difference in work hours for those with higher education, however there is only a marginal upwards shift.
+
+In our heatmap of height vs. weight faceted by age and gender, we saw evidence of some trends that we find interesting because we weren't looking for them. Adult women tend to have a denser distribution of weights compared to men, and the distributions of child height and weight tend to stay the same regardless of gender until a certain point where they diverge, probably puberty.
+
+Our heatmap of hours worked vs. coffee consumption actually surprised us because we couldn't find evidence of our common sense claim. Our idea was that obviously those who work more hours would tend to drink more coffee, but we found the distribution of coffee drinking to be uniform.
+
+Looking at our parallel coordinates plot of nutrients by income group, we were able to see some minor trends between the various income groups, but nothing substantial enough to make a broader claim.
+
+In our biplot of nutrients, we were actually able to find evidence of our common sense claim. Calories generally were positively correlated with all nutrients because all nutrients provide calories, except for water and vitamin c which don't. And 2 main groups of nutrients appeared: those that tended to come from meats vs. grains and vegetables.
+
+We actually find interesting results in our mosaic of military service and depression. We see that those who served in the military are very slightly more likely to be depressed. We also consider the idea that depression is relatively subjective when surveyed which could affect our results.
+
+Finally, in our mosaic of income, education level, and depression, we see very interestingly that those with higher education in the lower income group had the highest level of depression which is an interesting finding we did not consider beforehand.
+
+
+## Limitations, Future Directions, Lessons Learned
+
+We wish we could have used more of the data and examined more relationships because NHANES is a treasure trove of data, but with the limited time of the project we were unable to explore all the relationships we could have. In the future we would want to take our exploration one step further than we went. For example: we found that people who have lower income tend to have more depression if they are educated, but now we want to examine things like financial info and debt to take our analysis one step further and see if this depression is caused by something monetary or mental. Throughout the project one major lesson learned was to not assume a negative with mising data, for example: a lack of alcohol data doesn't mean an individual doesn't drink. We had to restructure our thinking around this idea a few times throughout the process.
+
+

@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Data | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 3 Data | YOUR TITLE HERE" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <title>Chapter 3 Data | National Health and Nutrition Examination Survey Visualization</title>
+  <meta name="description" content="Chapter 3 Data | National Health and Nutrition Examination Survey Visualization" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Data | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 3 Data | National Health and Nutrition Examination Survey Visualization" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Data | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 3 Data | National Health and Nutrition Examination Survey Visualization" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Daniel Young (day2127), Ruijie Zhang (rz2596), Shubham Kaushal (sk5118)" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -69,7 +69,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">NHANES Viz</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -80,13 +80,45 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a></li>
-<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
-<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a></li>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="data.html"><a href="data.html#dataset-columns"><i class="fa fa-check"></i><b>3.1.1</b> Dataset columns</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#nas-per-column"><i class="fa fa-check"></i><b>3.3.1</b> NA’s per Column</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#pattern-analysis-for-demographics"><i class="fa fa-check"></i><b>3.3.2</b> Pattern Analysis for Demographics</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data.html"><a href="data.html#pattern-analysis-for-nutrition"><i class="fa fa-check"></i><b>3.3.3</b> Pattern Analysis for Nutrition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#heatmap-of-height-vs-weight-by-gender-and-age"><i class="fa fa-check"></i><b>4.1</b> Heatmap of Height vs Weight by Gender and Age</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#examination-of-height-vs.-weight-by-age-started-smoking"><i class="fa fa-check"></i><b>4.2</b> Examination of Height vs. Weight by Age Started Smoking</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="results.html"><a href="results.html#scatter-of-height-vs.-weight-by-smoking-age"><i class="fa fa-check"></i><b>4.2.1</b> Scatter of Height vs. Weight by Smoking Age</a></li>
+<li class="chapter" data-level="4.2.2" data-path="results.html"><a href="results.html#boxplots-of-height-and-weight-by-smoking-age"><i class="fa fa-check"></i><b>4.2.2</b> Boxplots of Height and Weight by Smoking Age</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#heatmap-of-smoking-vs.-alcohol-faceted-by-cancer"><i class="fa fa-check"></i><b>4.3</b> Heatmap of Smoking vs. Alcohol faceted by Cancer</a></li>
+<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#scatterplot-of-age-vs.-bmi-by-marital-status"><i class="fa fa-check"></i><b>4.4</b> Scatterplot of Age vs. BMI by Marital Status</a></li>
+<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#biplot-of-total-nutrient-intake"><i class="fa fa-check"></i><b>4.5</b> Biplot of Total Nutrient Intake</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="results.html"><a href="results.html#biplot-with-just-rotation-vectors"><i class="fa fa-check"></i><b>4.5.1</b> Biplot with just rotation vectors:</a></li>
+<li class="chapter" data-level="4.5.2" data-path="results.html"><a href="results.html#biplot-with-points"><i class="fa fa-check"></i><b>4.5.2</b> Biplot with points:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="results.html"><a href="results.html#parallel-coordinates-plot-of-nutrients-by-income-group"><i class="fa fa-check"></i><b>4.6</b> Parallel Coordinates Plot of Nutrients by Income Group</a></li>
+<li class="chapter" data-level="4.7" data-path="results.html"><a href="results.html#heatmap-of-work-hours-vs.-caffeine-consumption"><i class="fa fa-check"></i><b>4.7</b> Heatmap of Work Hours vs. Caffeine Consumption</a></li>
+<li class="chapter" data-level="4.8" data-path="results.html"><a href="results.html#distribution-of-work-hours-for-different-education-levels"><i class="fa fa-check"></i><b>4.8</b> Distribution of Work Hours for different Education Levels</a></li>
+<li class="chapter" data-level="4.9" data-path="results.html"><a href="results.html#mosaic-plot-of-depression-vs-military-status"><i class="fa fa-check"></i><b>4.9</b> Mosaic Plot of Depression vs Military Status</a></li>
+<li class="chapter" data-level="4.10" data-path="results.html"><a href="results.html#mosaic-plot-of-education-level-vs-depression-vs-income"><i class="fa fa-check"></i><b>4.10</b> Mosaic Plot of Education Level vs Depression vs Income</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#main-takeaways"><i class="fa fa-check"></i><b>6.1</b> Main Takeaways</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#limitations-future-directions-lessons-learned"><i class="fa fa-check"></i><b>6.2</b> Limitations, Future Directions, Lessons Learned</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -98,7 +130,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">National Health and Nutrition Examination Survey Visualization</a>
           </h1>
         </div>
 
@@ -110,13 +142,47 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The NHANES dataset is collected by employees in mobile surveying centers with the equipment needed to take measurements and collect samples as well as doing questionnaires. The approach is extremely well documented and can be found <a href="https://www.cdc.gov/nchs/data/series/sr_02/sr02-184-508.pdf">here</a>. There was significantly more data than we possibly could have used in our project so we had to take extremely small subsets of it. Out of the many surveys we chose the demographics, body measures, nutrients, alcohol, disabilities, conditions, work, physical activity, and smoking datasets. Not every person filled out every survey. The demographics dataset is the baseline with 9254 respondents, and the rest of the surveys have less with the alcohol dataset having the least respondents with 5533. One challenge we faced was in the design of the survey: not answering a question is not the same as saying no. For example: not answering the smoking survey does not necessarily mean a participant doesn’t smoke. We had to factor this in to our analysis throughout the project.</p>
+<div id="dataset-columns" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Dataset columns<a href="data.html#dataset-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We chose these columns based off our interest in questioning whether they were related to others. We took a much larger subset of the columns, then brainstormed possible associations in order to trim down the list.</p>
+<p>The columns we use in the demographics dataset are: ID, country of birth, level of education, household size, age (topcoded at 80), gender, household income, military status, and marital status.</p>
+<p>The columns used in the body measures dataset are: ID, weight (kg), and height (cm).</p>
+<p>The columns used in the nutrients dataset are: ID, calories (kcal), protein (g), carbs (g), sugar (g), fiber (g), total fat (g), cholesterol (mg), vitamin C (mg), sodium (mg), caffeine (mg), and water (g).</p>
+<p>The columns from the alcohol dataset are: ID and number of drinks per day.</p>
+<p>The disabilities columns are: ID and how often do you feel depressed.</p>
+<p>The columns we use from the conditions set are: ID and have you ever had cancer.</p>
+<p>The columns used in the work dataset are: ID and hours worked a week.</p>
+<p>From the physical activity dataset we use: ID, minutes recreational vigorous activity per day, miutes moderate per day, and minutes sedentary per day.</p>
+<p>Finally, the columns we use from the smoking dataset are: ID, number of cigarettes per day last month and age started smoking regularly.</p>
+</div>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We download our data with a script based on the starter one NHANES provides <a href="https://wwwn.cdc.gov/nchs/data/Tutorials/Code/DB303_R.r">here</a>. We download each dataset separately then deal with merging them. Every entry in each dataset has a corresponding SEQN respondent ID which we left join over to create our total dataset. This ensures that each person gets a row in our database even if they didn’t answer every question. We do our preprocessing on a graph by graph basis because we use different portions of the dataset for each graph. The code is found dispersed throughout our graphs. Many of our columns are categorical with set responses which we find in codes in each dataset’s corresponding documentation on the NHANES website <a href="https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017">here</a>. We also process these individually for the sake of ease. There are also some codes like 77,777 and 99,999 which refer to “refuse to answer” or “didn’t answer” which we also have to preprocess.</p>
 </div>
 <div id="missing-value-analysis" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Missing value analysis<a href="data.html#missing-value-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="nas-per-column" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> NA’s per Column<a href="data.html#nas-per-column" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In order to do missing value analysis we have to take a less coventional approach because we have so many columns merged together from different datasets. First, we show the number of NAs in each column.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>We see that things like number of cigarettes a day have higher counts of NA because they are more niche parts of the survey and are less likely to be filled out, whereas things like nutrition, body measurements, or demographics are either very low in NAs or not missing any. However, we cannot conclude from an NA that someone doesn’t smoke, we just have to remove it because they may still have been a smoker and not filled out the question.</p>
+<p>Next we take a look at a few of our datasets to see trends within them.</p>
+</div>
+<div id="pattern-analysis-for-demographics" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Pattern Analysis for Demographics<a href="data.html#pattern-analysis-for-demographics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next we take a look at the demographics dataset specifically.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Here we see that level of education, and marital status are tied for most missing and we can see 4/5 of our missing patterns are missing both these fields with none having one or the other. Perhaps this is due to the survey methods putting these two questions close together. We also see military status having a decent amount missing. Income also has a very tiny amount of values missing. The most common missing pattern is education, marital, and military which leads us to believe this was in fact, due to how the survey was given grouping these questions.</p>
+</div>
+<div id="pattern-analysis-for-nutrition" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Pattern Analysis for Nutrition<a href="data.html#pattern-analysis-for-nutrition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next we look at the nutrition dataset.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>We see that the vast majority of the data is complete and there are only 2 missing patterns, one where none of the fields are filled, and one where just water is filled. This could be due to the fact that people answering did not want to count up all their nutrients, and water is a simple thing to list as it’s easy to estimate whereas the rest aren’t necessarily.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -156,7 +222,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/data.Rmd",
+"link": "https://github.com/danyoungday/nhanes-viz/edit/main/data.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -164,7 +230,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/data.Rmd",
+"link": "https://github.com/danyoungday/nhanes-viz/blob/main/data.Rmd",
 "text": null
 },
 "download": null,

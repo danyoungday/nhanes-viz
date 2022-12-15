@@ -2,30 +2,32 @@
 
 ## Sources
 
-The columns we use in the demographics dataset are: ID, Country of birth, Level of education, household size, age (topcoded at 80), gender, household income, military status, marital status.
+The NHANES dataset is collected by employees in mobile surveying centers with the equipment needed to take measurements and collect samples as well as doing questionnaires. The approach is extremely well documented and can be found [here](https://www.cdc.gov/nchs/data/series/sr_02/sr02-184-508.pdf). There was significantly more data than we possibly could have used in our project so we had to take extremely small subsets of it. Out of the many surveys we chose the demographics, body measures, nutrients, alcohol, disabilities, conditions, work, physical activity, and smoking datasets. Not every person filled out every survey. The demographics dataset is the baseline with 9254 respondents, and the rest of the surveys have less with the alcohol dataset having the least respondents with 5533. One challenge we faced was in the design of the survey: not answering a question is not the same as saying no. For example: not answering the smoking survey does not necessarily mean a participant doesn't smoke. We had to factor this in to our analysis throughout the project.
 
-The columns used in the body measures dataset are: ID, Weight (kg), Height (cm)
+### Dataset columns
+We chose these columns based off our interest in questioning whether they were related to others. We took a much larger subset of the columns, then brainstormed possible associations in order to trim down the list.
 
-The columns used in the nutrients dataset are: ID, Calories (kcal), Protein (g), Carbs (g), Sugar (g), Fiber (g), Total Fat (g), Cholesterol (mg), Vitamin C (mg), Sodium (mg), Caffeine (mg), Water (g).
+The columns we use in the demographics dataset are: ID, country of birth, level of education, household size, age (topcoded at 80), gender, household income, military status, and marital status.
 
-The columns from the alcohol dataset are: ID, Number of drinks per day
+The columns used in the body measures dataset are: ID, weight (kg), and height (cm).
 
-Diabetes: ID, Diagnosis for diabetes
+The columns used in the nutrients dataset are: ID, calories (kcal), protein (g), carbs (g), sugar (g), fiber (g), total fat (g), cholesterol (mg), vitamin C (mg), sodium (mg), caffeine (mg), and water (g).
 
-Disabilities: ID, How often do you feel depressed
+The columns from the alcohol dataset are: ID and number of drinks per day.
 
-Kidneys: ID, Diagnosed with weak/failing kidneys
+The disabilities columns are: ID and how often do you feel depressed.
 
-Conditions: ID, do you still have asthma, have you ever had cancer, ever had a stroke, ever had a heart attack
+The columns we use from the conditions set are: ID and have you ever had cancer.
 
-Work: ID, work status (working, unemployed, etc.), hours worked a week
+The columns used in the work dataset are: ID and hours worked a week.
 
-Physical activity: ID, job requires physical activity, minutes recreational vigorous activity per day, mins moderate per day, mins sedentary per day
+From the physical activity dataset we use: ID, minutes recreational vigorous activity per day, miutes moderate per day, and minutes sedentary per day.
 
-Smoking: ID, Do you smoke now, # cigarettes per day last month, age started smoking regularly 
-
+Finally, the columns we use from the smoking dataset are: ID, number of cigarettes per day last month and age started smoking regularly.
 
 ## Cleaning / transformation
+
+We download our data with a script based on the starter one NHANES provides [here](https://wwwn.cdc.gov/nchs/data/Tutorials/Code/DB303_R.r). We download each dataset separately then deal with merging them. Every entry in each dataset has a corresponding SEQN respondent ID which we left join over to create our total dataset. This ensures that each person gets a row in our database even if they didn't answer every question. We do our preprocessing on a graph by graph basis because we use different portions of the dataset for each graph. The code is found dispersed throughout our graphs. Many of our columns are categorical with set responses which we find in codes in each dataset's corresponding documentation on the NHANES website [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?BeginYear=2017). We also process these individually for the sake of ease. There are also some codes like 77,777 and 99,999 which refer to "refuse to answer" or "didn't answer" which we also have to preprocess.
 
 ```{r}
 #install.packages("survey")
@@ -62,36 +64,27 @@ nutrients <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DR1TOT_J.XPT"
 alcohol <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/ALQ_J.XPT", c("SEQN", "ALQ130")) %>%
   rename(drinks_day="ALQ130")
 
-# Diabetes
-diabetes <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DIQ_J.XPT", c("SEQN", "DIQ010")) %>%
-  rename(diabetes="DIQ010")
-
 # Disabilities
 disabilities <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DLQ_J.XPT", c("SEQN", "DLQ140")) %>%
   rename(depression="DLQ140")
 
-# Kidneys
-kidneys <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/KIQ_U_J.XPT", c("SEQN", "KIQ022")) %>%
-  rename(kidneys="KIQ022")
-
 # Conditions
-conditions <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/MCQ_J.XPT", c("SEQN", "MCQ035", "MCQ220", "MCQ160F", "MCQ160E")) %>%
-  rename(asthma="MCQ035", cancer="MCQ220", stroke="MCQ160F", heart_attack="MCQ160E")
+conditions <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/MCQ_J.XPT", c("SEQN", "MCQ220")) %>%
+  rename(cancer="MCQ220")
 
 # Work
-work <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/OCQ_J.XPT", c("SEQN", "OCD150", "OCQ180")) %>%
-  rename(work_status="OCD150", work_hours="OCQ180")
+work <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/OCQ_J.XPT", c("SEQN", "OCQ180")) %>%
+  rename(work_hours="OCQ180")
 
 # Physical Activity
-physical <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/PAQ_J.XPT", c("SEQN", "PAQ605", "PAD660", "PAD675", "PAD680")) %>%
-  rename(work_activity="PAQ605", act_mins_vig="PAD660", act_mins_mod="PAD675", act_mins_sed="PAD680")
+physical <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/PAQ_J.XPT", c("SEQN", "PAD660", "PAD675", "PAD680")) %>%
+  rename(act_mins_vig="PAD660", act_mins_mod="PAD675", act_mins_sed="PAD680")
 
 # Smoking
-smoking <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/SMQ_J.XPT", c("SEQN", "SMQ040", "SMD650", "SMD030")) %>%
-  rename(smoke="SMQ040", num_cigs_day="SMD650", smoke_age="SMD030")
+smoking <- read_data("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/SMQ_J.XPT", c("SEQN", "SMD650", "SMD030")) %>%
+  rename(num_cigs_day="SMD650", smoke_age="SMD030")
 ```
 
-Next we merge all our datasets by the SEQN ID column.
 ```{r}
 total = left_join(demographics, alcohol, by="SEQN")
 total = left_join(total, body_measures, by="SEQN")
@@ -103,7 +96,6 @@ total = left_join(total, smoking, by="SEQN")
 total = left_join(total, work, by="SEQN")
 ```
 
-Finally, we save our data to a file to be used for our graphs.
 ```{r}
 write.csv(total, "nhanesdata.csv", row.names=FALSE)
 ```
@@ -112,6 +104,7 @@ write.csv(total, "nhanesdata.csv", row.names=FALSE)
 
 ### NA's per Column
 In order to do missing value analysis we have to take a less coventional approach because we have so many columns merged together from different datasets. First, we show the number of NAs in each column.
+
 ```{r}
 na_count <- total %>% summarise_all(~sum(is.na(.))) %>% pivot_longer(cols=1:ncol(total))
 ggplot(na_count, aes(x = value, y = fct_reorder(name, value))) +
@@ -129,6 +122,7 @@ Next we take a look at a few of our datasets to see trends within them.
 ### Pattern Analysis for Demographics
 
 Next we take a look at the demographics dataset specifically.
+
 ```{r}
 dem_mis <- demographics %>% rename(country=country_of_birth, edu=level_education, hsize=household_size, age=age, gender=gender, inc=household_income, mil=military_status, mar=marital_status)
 plot_missing(dem_mis, percent = TRUE)
@@ -139,6 +133,7 @@ Here we see that level of education, and marital status are tied for most missin
 ### Pattern Analysis for Nutrition
 
 Next we look at the nutrition dataset.
+
 ```{r}
 nut_mis <- nutrients %>% rename(kcal=calories, prot=protein, carbs=carbs, sugar=sugar, fiber=fiber, fat=fat, chol=cholesterol, vitc=vitc, sodium=sodium, caf=caffeine, water=water)
 plot_missing(nut_mis, percent = TRUE)

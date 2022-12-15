@@ -116,7 +116,7 @@ df %>% drop_na(cancer) %>%
   ggtitle("Heatmap of Cigarettes per day vs. Drinks per day faceted by Cancer")
 ```
 
-Here we see surprisingly that between drinking and smoking there does not seem to be a correlation in the non cancer group as we would imagine there is a positive correlation. However it appears the cancer group drinks significantly less than the non cancer group, possibly due to medication. Finally we see that smoking appears to not be correlated with cancer besides one outlying group at 60 cigarettes smoked per day, which could be because we take all cancer types not just lung cancer.
+Here we see surprisingly that between drinking and smoking there does not seem to be a correlation in the non cancer group as we would imagine there is a positive correlation. However it appears the cancer group drinks significantly less than the non cancer group, possibly due to medication. Finally we see that smoking appears to not be correlated with cancer besides one outlying group at 60 cigarettes smoked per day, which could be because we take all cancer types not just lung cancer. We thought that we would find trends in higher drug usage leading to cancer, however it seems we may have also had a misunderstanding about the data because those that have cancer are probably going to be taking medication or hospitalized and unable to currently smoke or drink, even if those things did lead to their cancer.
 
 ## Scatterplot of Age vs. BMI by Marital Status
 

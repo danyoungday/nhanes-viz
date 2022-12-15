@@ -174,7 +174,7 @@ We subsample 120 points for readability in the graph while still maintaining our
 
 ## Parallel Coordinates Plot of Nutrients by Income Group
 
-Here we want to see if diet changes by income group.
+Here we want to see if diet changes by income group. We take 1% of the data as a random subset because we have so many samples.
 
 ```{r}
 set.seed(1)
@@ -204,7 +204,7 @@ ggparcoord(df_pc, column=c(8, 2, 3, 10, 11, 5, 6, 7, 4, 9, 12), scale="uniminmax
 
 ```
 
-Here we can see that while there are no obvious trends in this tiny subset of our data, we can see that there are some minor groupings by color in areas like protein/sodium/cholesterol where the 20,000-74,999 group is clustered together higher than the 100,000 and over group. We find it interesting that we see smaller more localized trends, however we don't see one large, overarching trend in income vs. nutrients.
+Here we can see that while there are no obvious trends in this tiny subset of our data, we can see that there are some minor groupings by color in areas like protein/sodium/cholesterol where the 20,000-74,999 group is clustered together higher than the 100,000 and over group. This green group does seem to stay relatively together throughout the graph. It also seems like the other groups have some clustering as well. We find it interesting that we see smaller more localized trends in this data, however we don't find one large, overarching one with lots of evidence.
 
 ## Heatmap of Work Hours vs. Caffeine Consumption
 

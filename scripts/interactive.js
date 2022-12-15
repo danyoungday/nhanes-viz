@@ -1,8 +1,8 @@
 // Add svg
 d3.select("#plot")
     .append("svg")
-    .attr("width", 700)
-    .attr("height", 1000);
+    .attr("width", 500)
+    .attr("height", 575);
 
 const svg = d3.select("svg");
 
@@ -92,22 +92,29 @@ svg.selectAll("rect.right").on("click", function() {
 // Add solution (hidden at start)
 svg.append("text")
     .attr("x", mid)
-    .attr("y", top_bound + (dataset.length + 3) * text_height)
+    .attr("y", top_bound + (dataset.length + 1.5) * text_height)
     .attr("text-anchor", "middle")
     .attr("id", "solution")
 
-// Add verify button
-svg.append("text")
-    .attr("x", mid)
-    .attr("y", top_bound + (dataset.length + 2) * text_height)
-    .attr("text-anchor", "middle")
+d3.select("#plot").append("button")
     .text("Verify")
+    .style("position", "relative")
+    .style("left", -275)
     .on("click", function() {
         if(verify()) {
-            d3.select("text#solution").text("Correct! Great job!")
+            d3.select("text#solution")
+                .style("fill", "white")
+                .text("Correct! Great job!")
+                .transition(2000)
+                .style("fill", "black")
+                
         }
         else {
-            d3.select("text#solution").text("Wrong. Try again.")
+            d3.select("text#solution")
+                .style("fill", "white")
+                .text("Wrong. Try again.")
+                .transition(2000)
+                .style("fill", "black")
         }
     })
 

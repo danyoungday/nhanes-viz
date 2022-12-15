@@ -1,3 +1,11 @@
 # Interactive component
 
+Studies show that recalling information after you learn it can help solidify it in your long-term memory.
+Quiz: Can you sort the nutrients into their correlated groups based on the earlier graph?
+Instructions: Click on the box corresponding to the nutrient in group 1 or 2 to place it in there. Then click verify to check your answer.
 
+<script src="https://d3js.org/d3.v7.js"></script>
+
+<div id="plot"></div>
+
+<script src="scripts/interactive.js"></script>

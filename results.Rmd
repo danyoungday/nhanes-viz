@@ -187,7 +187,7 @@ df_pc <- df %>%
   drop_na("household_income") %>%
   slice_sample(prop=0.01)
 df_pc$Income_group <- ifelse((df_pc$household_income>=1&df_pc$household_income<=4),"$0 - $19,999",NA)
-df_pc$Income_group <- ifelse((df_pc$household_income>=6&df_pc$household_income<=10),"$20,000 - $74,999",df_pc$Income_group)
+df_pc$Income_group <- ifelse((df_pc$household_income>=5&df_pc$household_income<=10),"$20,000 - $74,999",df_pc$Income_group)
 df_pc$Income_group <- ifelse((df_pc$household_income==13),"$0 - $19,999",df_pc$Income_group)
 df_pc$Income_group <- ifelse((df_pc$household_income==14),"$75,000 - $99,999",df_pc$Income_group)
 df_pc$Income_group <- ifelse((df_pc$household_income==15),"$100,000 and Over",df_pc$Income_group)
@@ -228,4 +228,154 @@ ggplot(caf, aes(work_hours, caffeine)) +
 
 In examining the relationship between work hours and caffeine consumption after removing drastic outliers, we shockingly see that there is no correlation between the two. The majority of people drink 1-2 cups (100-200mg) of coffee a day with some minor outliers evenly distributed throughout different values of weekly work hours. We find the lack of correlation here more surprising than seeing one because we expected to see a positive relationship between the two.
 
-Start here
+## Distribution of Work Hours for different Education Levels
+
+```{r}
+# Dropping outliers for hours worked per week and only keeping records where answers are provided
+edu <- data[c("work_hours", "level_education")] %>% 
+  drop_na() %>%
+  filter(work_hours < 170, level_education < 7)
+
+edu$level_education[which(edu$level_education==1)]  <- "< 9th Grade"
+edu$level_education[which(edu$level_education==2)]  <- "9-11th Grade"
+edu$level_education[which(edu$level_education==3)]  <- "HS Grad / GDE"
+edu$level_education[which(edu$level_education==4)]  <- "College / AA Degree"
+edu$level_education[which(edu$level_education==5)]  <- "College Graduate or above"
+```
+
+```{r}
+# function to plot histogram per education level 
+# ed_level: education_level 
+edu_work_hist = function(ed_level) {
+  
+  df = edu %>%
+    filter(level_education == ed_level)
+  n_val = nrow(df)
+  
+  ggplot(df, aes(x = work_hours)) +
+    geom_histogram(aes(y = ..density..), bins = 20, color = 'black', fill = 'lightgrey') + 
+    labs(
+      x = 'Weekly Work Hours', 
+      y = 'Density', 
+      title = paste("Work Hours Distribution for ", ed_level, " education level", sep = "")
+    ) + 
+    theme_classic() + 
+    theme(
+      panel.grid.major.y = element_line(color = 'lightgrey', linetype = 'dashed'), 
+      axis.title.x = element_text(size = 8, vjust = -0.5), 
+      axis.title.y = element_text(size = 8, vjust = 2),
+      plot.title = element_text(face = 'bold', size = 12), 
+      legend.key.size = unit(0.75, 'cm'), 
+      legend.text = element_text(size = 12), 
+      legend.position = 'bottom'
+  )
+  
+}
+
+edu_work_hist("< 9th Grade")
+
+edu_work_hist("9-11th Grade")
+
+edu_work_hist("HS Grad / GDE")
+
+edu_work_hist("College / AA Degree")
+
+edu_work_hist("College Graduate or above")
+```
+
+In the above histograms, we notice that the number of hours worked in a week does not vary considerably by the education level. As expected, we see that most individuals work for 40 hours per week, irrespective of education level. We also notice that individuals that are college graduates or above, have a larger proportion of people working 50 hours per week compared to that in any other group. Additionally, college graduates have a lower proportion of individuals working less than 40 hours in comparison to that in any other group. This gives us an idea that individuals who at least have a college degree are more likely to work longer hours.
+
+## Mosaic Plot of Depression vs Military Status
+```{r}
+# Dropping records where questions are not answered
+mili <- data[c("military_status", "depression")] %>% 
+  drop_na() %>%
+  filter(depression < 7, military_status < 7)
+
+mili$depression[which(mili$depression==1)]  <- "Daily"
+mili$depression[which(mili$depression==2)]  <- "Weekly"
+mili$depression[which(mili$depression==3)]  <- "Monthly"
+mili$depression[which(mili$depression==4)]  <- "Few times per Year"
+mili$depression[which(mili$depression==5)]  <- "Never"
+
+mili$military_status[which(mili$military_status==1)]  <- "Yes"
+mili$military_status[which(mili$military_status==2)]  <- "No"
+```
+```{r}
+library(vcd)
+
+grouped_mili = mili %>% 
+  group_by(military_status, depression) %>%
+  dplyr::summarize(Freq= n()) %>%
+  ungroup() %>%
+  complete(military_status, depression, fill = list(Freq = 0))
+
+grouped_mili$depression <- factor(grouped_mili$depression, levels=c("Never", "Few times per Year", "Monthly", "Weekly", "Daily")
+)
+
+colnames(grouped_mili) <- c("ServedArmy", "Depression", "Freq")
+
+mosaic(Depression ~ ServedArmy,
+       grouped_mili,
+       direction = c("v", "h"),
+       labeling_args = list(rot_labels = c(bottom = 90, left = 0)),
+       gp_labels = gpar(fontsize = 7),
+       gp_varnames = gpar(fontsize = 10, fontface = 1))
+```
+
+In the above mosaic plot, we notice that the proportion of people who feel depressed at most monthly is higher among those individuals who served in the army. Although the difference is very slight, we can clearly tell this difference by comparing the stack of cells for "Daily", "Weekly" and "Monthly" groups. We expected this finding because it is widely known that serving in the army exposes individuals to circumstances that harm mental health. 
+
+## Mosaic Plot of Education Level vs Depression vs Income
+```{r}
+# Dropping records where questions are not answered
+income_dep <- data[c("level_education", "depression", "household_income")] %>% 
+  filter(depression < 7, level_education < 7, household_income < 77) %>%
+    drop_na()
+
+
+income_dep$depression[which(income_dep$depression==1)]  <- "Yes"
+income_dep$depression[which(income_dep$depression==2)]  <- "Yes"
+income_dep$depression[which(income_dep$depression==3)]  <- "Yes"
+income_dep$depression[which(income_dep$depression==4)]  <- "Yes"
+income_dep$depression[which(income_dep$depression==5)]  <- "No"
+
+income_dep$level_education[which(income_dep$level_education==1)]  <- "< 9th Grade"
+income_dep$level_education[which(income_dep$level_education==2)]  <- "9-11th Grade"
+income_dep$level_education[which(income_dep$level_education==3)]  <- "HS Grad / GDE"
+income_dep$level_education[which(income_dep$level_education==4)]  <- "College / AA Degree"
+income_dep$level_education[which(income_dep$level_education==5)]  <- "College Graduate or above"
+
+income_dep$income_group <- ifelse((income_dep$household_income>=1&income_dep$household_income<=4),"$0 - $20k",NA)
+income_dep$income_group <- ifelse((income_dep$household_income>=5&income_dep$household_income<=10),"$20k - $75k",income_dep$income_group)
+income_dep$income_group <- ifelse((income_dep$household_income==13),"$0 - $20k",income_dep$income_group)
+income_dep$income_group <- ifelse((income_dep$household_income==14),"$75k - $100k",income_dep$income_group)
+income_dep$income_group <- ifelse((income_dep$household_income==15),"$100k+",income_dep$income_group)
+```
+
+```{r}
+grouped_income_dep = income_dep %>% 
+  drop_na() %>%
+  group_by(level_education, depression, income_group) %>%
+  dplyr::summarize(Freq= n()) %>%
+  ungroup() %>%
+  complete(level_education, depression, income_group, fill = list(Freq = 0))
+
+grouped_income_dep$income_group <- factor(grouped_income_dep$income_group, levels=c("$0 - $20k","$20k - $75k","$75k - $100k","$100k+"))
+
+grouped_income_dep$depression <- factor(grouped_income_dep$depression, levels=c("Yes", "No")
+)
+
+grouped_income_dep$level_education <- factor(grouped_income_dep$level_education, levels=c("< 9th Grade", "9-11th Grade", "HS Grad / GDE", "College / AA Degree", "College Graduate or above")
+)
+
+colnames(grouped_income_dep) <- c("EducationLevel", "DepressionFeelings", "IncomeGroup", "Freq")
+
+mosaic(DepressionFeelings ~ EducationLevel + IncomeGroup,
+       grouped_income_dep,
+       direction = c("v", "h", "v"),
+       labeling_args = list(rot_labels = c(bottom = 0, left = 0, right = 0)),
+       gp_labels = gpar(fontsize = 7),
+       gp_varnames = gpar(fontsize = 10, fontface = 1))
+```
+
+We are able to make some interesting observations from the above mosaic plot. Firstly, we notice that individuals with higher education tend to make more money. Secondly, we notice that individuals who make lesser money feel more depressed. The difference in depressive feelings between those who make less than \$20k and those who make between \$20k-75k is least for those who stopped pursuing education before 9th grade. This gives us an indication that individuals who pursue their education longer but make lesser money, tend to be more depressed. This could be because of student debt, or simply because they compare themselves with others with similar higher education who make more than them. While our reasoning is nothing more than speculation, we can certainly tell that individuals who make more money are more likely to feel less depressed. 

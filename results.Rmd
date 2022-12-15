@@ -137,10 +137,13 @@ df %>% drop_na(marital_status) %>%
   ggplot(aes(x=age, y=BMI)) + 
   geom_point(aes(col=marital_status),alpha=0.5,size=0.7) +
   labs(col="Marital Status")+
+  ggtitle("Scatterplot of Age vs. BMI by Marital Status") +
+  xlab("Age (topcoded at 80)") +
+  ylab("BMI") +
   theme_classic()
 ```
 
-The data here is topcoded at 80 years old. First we see there is little correlation between BMI and age regardless of marital status. The data is relatively uniformly distributed throughout the graph. Next we observe there appears to be no difference between the married and not married groups. We define married as: currently married or living with partner and we consider not married as: widowed, divorced, separated, and never married. Looking at this graph it seems there is not enough evidence to say that people "let themselves go" after they get married.
+First we see there is little correlation between BMI and age regardless of marital status. The data is relatively uniformly distributed throughout the graph. Next we observe there appears to be no difference between the married and not married groups. We define married as: currently married or living with partner and we consider not married as: widowed, divorced, separated, and never married. Looking at this graph it seems there is not enough evidence to say that people "let themselves go" after they get married.
 
 ## Biplot of Total Nutrient Intake
 
@@ -154,16 +157,16 @@ nutrients_norm <- nutrients %>% mutate(across(where(is.numeric), ~round((.x-mean
 
 ### Biplot with just rotation vectors:
 ```{r}
-draw_biplot(nutrients_norm, points=FALSE, mult=15)
+draw_biplot(nutrients_norm, points=FALSE, mult=15) + theme_classic()
 ```
 
-We see our first two PCs only account for 61.2% of the variance in the data, however we still see trends in our rotation vectors that seem to align with our real-world observations. Calories are somewhat positively correlated with all the main macro nutrients because the more someone eats, the more nutrients they get. However, it is the least positively correlated with water intake and vitamin c which don't necessarily provide calorie intake. Then we see two clear correlated groups of features: cholesterol, protein, sodium, and fat which can be accounted to eating more meat, and fiber, carbohydrates, and sugar which can be attributed to grains. These two groups seem to not be correlated with each other which makes sense because they are not linked by many common foods. Finally, caffeine has a very small vector because it seems to not be correlated with the rest of the data.
+We see our first two PCs only account for 61.2% of the variance in the data, however we still see trends in our rotation vectors that seem to align with our real-world observations. Calories are somewhat positively correlated with all the main macro nutrients because the more someone eats, the more nutrients they get. However, it is the least correlated with water intake and vitamin c which don't necessarily provide calorie intake. Then we see two clear correlated groups of features: cholesterol, protein, sodium, and fat which can be accounted to eating more meat, and fiber, carbohydrates, and sugar which can be attributed to grains. These two groups seem to not be correlated with each other which makes sense because they are not linked by many common foods. Finally, caffeine has a very small vector because it seems to not be correlated with the rest of the data.
 
 ### Biplot with points:
 ```{r}
 set.seed(0)
 nutrients_sub <- nutrients_norm %>% sample_n(120)
-draw_biplot(nutrients_sub, points=TRUE)
+draw_biplot(nutrients_sub, points=TRUE) + theme_classic()
 ```
 
 We subsample 120 points for readability in the graph while still maintaining our rotation vectors. It looks like the distribution has one main cluster in the left half of the graph below the average total nutrient intake where most people are, and then there is a more sparse spread beyond that, maybe because people who eat more tend to have more specialized or unhealthy diets. Additionally, perhaps there are more outliers on the right side because you can always eat more but it's physically impossible to eat below a certain threshold.
